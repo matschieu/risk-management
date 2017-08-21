@@ -1,0 +1,5 @@
+riskmanagement.scoring.test.mail.rules.ObjectCheck
+riskmanagement.scoring.test.mail.rules.SenderInfo
+
+riskmanagement.scoring.test.payment.rules.CommercialCard
+riskmanagement.scoring.test.payment.rules.VirtualCard
