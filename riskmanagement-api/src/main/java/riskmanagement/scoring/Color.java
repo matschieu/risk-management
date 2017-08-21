@@ -2,7 +2,7 @@ package riskmanagement.scoring;
 
 /**
  *
- * @author mathieu
+ * @author Matschieu
  *
  */
 public enum Color {

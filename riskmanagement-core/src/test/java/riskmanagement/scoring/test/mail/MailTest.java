@@ -23,7 +23,7 @@ import riskmanagement.scoring.test.mail.rules.SenderInfo;
 
 /**
  *
- * @author mathieu
+ * @author Matschieu
  *
  */
 @FixMethodOrder(MethodSorters.JVM)

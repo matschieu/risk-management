@@ -4,7 +4,7 @@ import java.util.Map;
 
 
 /**
- * @author mathieu
+ * @author Matschieu
  *
  */
 public class RuleSettings extends Settings {

@@ -4,7 +4,7 @@ import java.util.List;
 
 /**
  *
- * @author mathieu
+ * @author Matschieu
  *
  */
 public interface DecisionHelper {

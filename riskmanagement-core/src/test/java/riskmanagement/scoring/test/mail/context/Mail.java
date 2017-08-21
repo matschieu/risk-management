@@ -2,7 +2,7 @@ package riskmanagement.scoring.test.mail.context;
 
 /**
  *
- * @author mathieu
+ * @author Matschieu
  *
  */
 public class Mail {

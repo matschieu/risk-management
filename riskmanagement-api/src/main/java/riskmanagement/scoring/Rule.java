@@ -4,7 +4,7 @@ import riskmanagement.common.RuleSettings;
 
 /**
  *
- * @author mathieu
+ * @author Matschieu
  *
  */
 public abstract class Rule {

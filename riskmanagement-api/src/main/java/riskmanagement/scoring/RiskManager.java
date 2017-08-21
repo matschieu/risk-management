@@ -3,7 +3,7 @@ package riskmanagement.scoring;
 import javax.ejb.Local;
 
 /**
- * @author mathieu
+ * @author Matschieu
  *
  */
 @Local

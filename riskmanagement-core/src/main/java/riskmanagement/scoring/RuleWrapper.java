@@ -3,7 +3,7 @@ package riskmanagement.scoring;
 import riskmanagement.common.RuleSettings;
 
 /**
- * @author mathieu
+ * @author Matschieu
  *
  */
 class RuleWrapper {

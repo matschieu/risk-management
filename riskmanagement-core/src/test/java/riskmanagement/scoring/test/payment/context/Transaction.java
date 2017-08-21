@@ -3,7 +3,7 @@ package riskmanagement.scoring.test.payment.context;
 
 /**
  *
- * @author mathieu
+ * @author Matschieu
  *
  */
 public class Transaction {

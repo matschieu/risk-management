@@ -7,7 +7,7 @@ import riskmanagement.scoring.test.payment.context.Transaction;
 
 /**
  *
- * @author mathieu
+ * @author Matschieu
  *
  */
 public class VirtualCard extends Rule {

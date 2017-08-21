@@ -10,7 +10,7 @@ import riskmanagement.common.RuleSettings;
 
 /**
  *
- * @author mathieu
+ * @author Matschieu
  *
  */
 public class DefaultRuleEngine implements RuleEngine {

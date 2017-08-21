@@ -11,7 +11,7 @@ import riskmanagement.scoring.RuleFactory;
 import riskmanagement.scoring.test.payment.rules.CommercialCard;
 
 /**
- * @author mathieu
+ * @author Matschieu
  *
  */
 public class RuleFactoryTest {

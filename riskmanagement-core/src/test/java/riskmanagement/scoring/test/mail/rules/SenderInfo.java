@@ -9,7 +9,7 @@ import riskmanagement.scoring.test.mail.context.Mail;
 
 /**
  *
- * @author mathieu
+ * @author Matschieu
  *
  */
 public class SenderInfo extends Rule {

@@ -6,7 +6,7 @@ import riskmanagement.common.RuleSettings;
 
 /**
  *
- * @author mathieu
+ * @author Matschieu
  *
  */
 public interface RuleEngine {

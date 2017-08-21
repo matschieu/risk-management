@@ -24,7 +24,7 @@ import riskmanagement.scoring.test.payment.rules.VirtualCard;
 
 /**
  *
- * @author mathieu
+ * @author Matschieu
  *
  */
 @FixMethodOrder(MethodSorters.JVM)

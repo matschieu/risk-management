@@ -6,7 +6,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import riskmanagement.common.RuleSettings;
 
 /**
- * @author mathieu
+ * @author Matschieu
  *
  */
 public class ProfileRule {

@@ -4,7 +4,7 @@ import java.util.Date;
 
 /**
  *
- * @author mathieu
+ * @author Matschieu
  *
  */
 public class Card {

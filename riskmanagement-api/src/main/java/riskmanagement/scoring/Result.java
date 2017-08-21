@@ -7,7 +7,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
  *
- * @author mathieu
+ * @author Matschieu
  *
  */
 public class Result {

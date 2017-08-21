@@ -10,7 +10,7 @@ import riskmanagement.admin.Profile;
 import riskmanagement.admin.ProfileManager;
 
 /**
- * @author mathieu
+ * @author Matschieu
  *
  */
 @Stateless(name = "riskmanagement.scoring.DefaultRiskManager")

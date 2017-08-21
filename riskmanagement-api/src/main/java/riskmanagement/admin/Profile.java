@@ -9,7 +9,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import riskmanagement.common.Settings;
 
 /**
- * @author mathieu
+ * @author Matschieu
  *
  */
 public class Profile {

@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  *
- * @author mathieu
+ * @author Matschieu
  *
  */
 public class DefaultDecisionHelper implements DecisionHelper {

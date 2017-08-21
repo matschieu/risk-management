@@ -8,7 +8,7 @@ import java.util.ServiceLoader;
 
 
 /**
- * @author mathieu
+ * @author Matschieu
  *
  */
 public class RuleFactory {
