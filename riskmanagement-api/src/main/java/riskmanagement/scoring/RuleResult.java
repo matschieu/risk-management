@@ -6,12 +6,14 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
  *
+ * The result produced by a risk evaluation of a specific context
+ *
  * @author Matschieu
  *
  */
 public class RuleResult {
 
-	private String ruleIdentifier;
+	private String ruleName;
 
 	private boolean applicable;
 
@@ -21,10 +23,10 @@ public class RuleResult {
 
 	/**
 	 *
-	 * @param ruleIdentifier
+	 * @param ruleName: the name of the rule which produced this result
 	 */
-	public RuleResult(String ruleIdentifier) {
-		this.ruleIdentifier = ruleIdentifier;
+	public RuleResult(String ruleName) {
+		this.ruleName = ruleName;
 		this.score = 0;
 		this.hit = false;
 		this.applicable = false;
@@ -32,12 +34,12 @@ public class RuleResult {
 
 	/**
 	 *
-	 * @param ruleIdentifier
-	 * @param score
-	 * @param hit
+	 * @param ruleName: the name of the rule which produced this result
+	 * @param score: the score of this single rule
+	 * @param hit: did the rule return a hit?
 	 */
 	public RuleResult(String ruleIdentifier, double score, boolean hit) {
-		this.ruleIdentifier = ruleIdentifier;
+		this.ruleName = ruleIdentifier;
 		this.score = score;
 		this.hit = hit;
 		this.applicable = true;
@@ -46,15 +48,15 @@ public class RuleResult {
 
 	/**
 	 *
-	 * @return String
+	 * @return String: the name of the rule which produced this result
 	 */
 	public String getRuleName() {
-		return this.ruleIdentifier;
+		return this.ruleName;
 	}
 
 	/**
 	 *
-	 * @return double
+	 * @return double: the score of this single rule
 	 */
 	public double getScore() {
 		return this.score;
@@ -62,7 +64,7 @@ public class RuleResult {
 
 	/**
 	 *
-	 * @return boolean
+	 * @return boolean: true if this rule returns a hit
 	 */
 	public boolean hasHit() {
 		return this.hit;
@@ -70,7 +72,7 @@ public class RuleResult {
 
 	/**
 	 *
-	 * @return boolean
+	 * @return boolean: true if this rule was applicable to the context
 	 */
 	public boolean isApplicable() {
 		return this.applicable;

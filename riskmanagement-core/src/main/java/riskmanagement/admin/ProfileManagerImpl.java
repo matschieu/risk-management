@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.ejb.Stateless;
 
+import riskmanagement.common.Stage;
+
 /**
  * @author Matschieu
  *
@@ -23,7 +25,7 @@ public class ProfileManagerImpl implements ProfileManager {
 	}
 
 	@Override
-	public List<Profile> findAllProfiles(String accountId) {
+	public List<Profile> findAllProfiles(String accountId, Stage stage) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -35,13 +37,13 @@ public class ProfileManagerImpl implements ProfileManager {
 	}
 
 	@Override
-	public Profile findProfile(String accountId, String profileName) {
+	public Profile findProfile(String accountId, String profileName, Stage stage) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Profile findActiveProfile(String accountId) {
+	public Profile findActiveProfile(String accountId, Stage stage) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -52,7 +54,7 @@ public class ProfileManagerImpl implements ProfileManager {
 	}
 
 	@Override
-	public void deleteProfile(String accountId, String profileName) throws Exception {
+	public void deleteProfile(String accountId, String profileName, Stage stage) throws Exception {
 		// TODO Auto-generated method stub
 	}
 

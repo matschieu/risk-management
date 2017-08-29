@@ -3,6 +3,9 @@ package riskmanagement.scoring;
 import riskmanagement.common.RuleSettings;
 
 /**
+ *
+ * A class to associate a rule to the settings.
+ *
  * @author Matschieu
  *
  */
@@ -20,7 +23,7 @@ class RuleWrapper {
 	}
 
 	/**
-	 * @param rule (Rule)
+	 * @param rule
 	 */
 	void setRule(Rule rule) {
 		this.rule = rule;
@@ -34,7 +37,7 @@ class RuleWrapper {
 	}
 
 	/**
-	 * @param ruleSettings (RuleSettings)
+	 * @param ruleSettings
 	 */
 	void setRuleSettings(RuleSettings ruleSettings) {
 		this.ruleSettings = ruleSettings;

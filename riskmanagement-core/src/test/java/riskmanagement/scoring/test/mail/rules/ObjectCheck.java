@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import riskmanagement.common.RuleSettings;
+import riskmanagement.common.Stage;
 import riskmanagement.scoring.Rule;
 import riskmanagement.scoring.RuleResult;
 import riskmanagement.scoring.test.mail.context.Mail;
@@ -25,7 +26,7 @@ public class ObjectCheck extends Rule {
 	}
 
 	@Override
-	public <C> boolean isApplicable(C context, RuleSettings ruleSettings) {
+	public <C> boolean isApplicable(C context, Stage stage, RuleSettings ruleSettings) {
 		if (context instanceof Mail) {
 			Mail mail = (Mail)context;
 			return mail.getObject() != null && !mail.getObject().isEmpty();
@@ -34,7 +35,7 @@ public class ObjectCheck extends Rule {
 	}
 
 	@Override
-	public <C> RuleResult evaluate(C context, RuleSettings ruleSettings) {
+	public <C> RuleResult evaluate(C context, Stage stage, RuleSettings ruleSettings) {
 		RuleResult ruleResult = null;
 		Mail mail = (Mail)context;
 

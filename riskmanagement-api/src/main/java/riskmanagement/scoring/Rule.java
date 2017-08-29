@@ -1,8 +1,12 @@
 package riskmanagement.scoring;
 
 import riskmanagement.common.RuleSettings;
+import riskmanagement.common.Stage;
 
 /**
+ *
+ * A rule is a logic used to evaluate a part of the risk of a context.
+ * It is possible to create many rules as necessary based on different business context.
  *
  * @author Matschieu
  *
@@ -13,7 +17,7 @@ public abstract class Rule {
 
 	/**
 	 *
-	 * @param name
+	 * @param name: the name to identify this rule (must be unique)
 	 */
 	public Rule(String name) {
 		this.name = name;
@@ -21,7 +25,7 @@ public abstract class Rule {
 
 	/**
 	 *
-	 * @return String
+	 * @return String: the rule name
 	 */
 	public String getName() {
 		return this.name;
@@ -34,18 +38,24 @@ public abstract class Rule {
 
 	/**
 	 *
-	 * @param context
-	 * @param ruleSettings
-	 * @return boolean
+	 * Returns whether this rule is applicable in the current context and stage.
+	 *
+	 * @param context: the context to evaluate the risk
+	 * @param stage: the stage when risk the evaluation is done
+	 * @param ruleSettings: the settings of this rule
+	 * @return boolean: true if this rule is applicable
 	 */
-	public abstract <C> boolean isApplicable(C context, RuleSettings ruleSettings);
+	public abstract <C> boolean isApplicable(C context, Stage stage, RuleSettings ruleSettings);
 
 	/**
 	 *
-	 * @param context
-	 * @param ruleSettings
-	 * @return RuleResult
+	 * Evaluates this rule in the current context and stage.
+	 *
+	 * @param context: the context to evaluate the risk
+	 * @param stage: the stage when risk the evaluation is done
+	 * @param ruleSettings: the settings of this rule
+	 * @return RuleResult: the result of the risk evaluation
 	 */
-	public abstract <C> RuleResult evaluate(C context, RuleSettings ruleSettings);
+	public abstract <C> RuleResult evaluate(C context, Stage stage, RuleSettings ruleSettings);
 
 }

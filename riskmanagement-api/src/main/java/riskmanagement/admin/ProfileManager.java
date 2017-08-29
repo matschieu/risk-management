@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.ejb.Local;
 
+import riskmanagement.common.Stage;
+
 /**
  * @author Matschieu
  *
@@ -29,9 +31,10 @@ public interface ProfileManager {
 	/**
 	 *
 	 * @param accountId
+	 * @param stage
 	 * @return List<Profile>
 	 */
-	List<Profile> findAllProfiles(String accountId);
+	List<Profile> findAllProfiles(String accountId, Stage stage);
 
 	/**
 	 *
@@ -44,16 +47,18 @@ public interface ProfileManager {
 	 *
 	 * @param accountId
 	 * @param profileName
+	 * @param stage
 	 * @return Profile
 	 */
-	Profile findProfile(String accountId, String profileName);
+	Profile findProfile(String accountId, String profileName, Stage stage);
 
 	/**
 	 *
 	 * @param accountId
+	 * @param stage
 	 * @return Profile
 	 */
-	Profile findActiveProfile(String accountId);
+	Profile findActiveProfile(String accountId, Stage stage);
 
 	/**
 	 *
@@ -66,7 +71,8 @@ public interface ProfileManager {
 	 *
 	 * @param accountId
 	 * @param profileName
+	 * @param stage
 	 * @throws Exception
 	 */
-	void deleteProfile(String accountId, String profileName) throws Exception;
+	void deleteProfile(String accountId, String profileName, Stage stage) throws Exception;
 }

@@ -8,6 +8,9 @@ import java.util.ServiceLoader;
 
 
 /**
+ *
+ * This is singleton factory used to get rule implementations.
+ *
  * @author Matschieu
  *
  */
@@ -21,7 +24,7 @@ public class RuleFactory {
 
 	/**
 	 *
-	 * @return RuleRegistry
+	 * @return RuleFactory: and instance of this class
 	 */
 	public static RuleFactory getInstance() {
 		if (instance == null) {
@@ -44,8 +47,10 @@ public class RuleFactory {
 
 	/**
 	 *
-	 * @param ruleName
-	 * @return Rule
+	 * Retrieves the rule implementation associated to a rule name given in argument.
+	 *
+	 * @param ruleName: the name of the rule
+	 * @return Rule: the rule implementation
 	 * @throws IllegalArgumentException
 	 */
 	public Rule getRule(String ruleName) throws IllegalArgumentException {

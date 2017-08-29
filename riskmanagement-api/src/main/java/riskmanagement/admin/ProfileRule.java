@@ -40,7 +40,7 @@ public class ProfileRule {
 	}
 
 	/**
-	 * @param ruleName (String)
+	 * @param ruleName
 	 */
 	public void setRuleName(String ruleName) {
 		this.ruleName = ruleName;
@@ -54,7 +54,7 @@ public class ProfileRule {
 	}
 
 	/**
-	 * @param settings (RuleSettings)
+	 * @param settings
 	 */
 	public void setSettings(RuleSettings settings) {
 		this.settings = settings;

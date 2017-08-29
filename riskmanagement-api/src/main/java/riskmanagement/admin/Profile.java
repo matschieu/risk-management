@@ -7,6 +7,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 import riskmanagement.common.Settings;
+import riskmanagement.common.Stage;
 
 /**
  * @author Matschieu
@@ -28,6 +29,8 @@ public class Profile {
 
 	private Settings settings = new Settings();
 
+	private Stage stage;
+
 	/**
 	 * @return Integer
 	 */
@@ -36,7 +39,7 @@ public class Profile {
 	}
 
 	/**
-	 * @param id (Integer)
+	 * @param id
 	 */
 	public void setId(Integer id) {
 		this.id = id;
@@ -50,7 +53,7 @@ public class Profile {
 	}
 
 	/**
-	 * @param accountId (String)
+	 * @param accountId
 	 */
 	public void setAccountId(String accountId) {
 		this.accountId = accountId;
@@ -64,7 +67,7 @@ public class Profile {
 	}
 
 	/**
-	 * @param name (String)
+	 * @param name
 	 */
 	public void setName(String name) {
 		this.name = name;
@@ -78,7 +81,7 @@ public class Profile {
 	}
 
 	/**
-	 * @param minThreshold (double)
+	 * @param minThreshold
 	 */
 	public void setMinThreshold(double minThreshold) {
 		this.minThreshold = minThreshold;
@@ -92,7 +95,7 @@ public class Profile {
 	}
 
 	/**
-	 * @param maxThreshold (double)
+	 * @param maxThreshold
 	 */
 	public void setMaxThreshold(double maxThreshold) {
 		this.maxThreshold = maxThreshold;
@@ -106,14 +109,14 @@ public class Profile {
 	}
 
 	/**
-	 * @param rules (List<ProfileRule>)
+	 * @param rules
 	 */
 	public void setRules(List<ProfileRule> rules) {
 		this.rules = rules;
 	}
 
 	/**
-	 * @param settings (Settings)
+	 * @param settings
 	 */
 	public void setSettings(Settings settings) {
 		this.settings = settings;
@@ -124,6 +127,20 @@ public class Profile {
 	 */
 	public Settings getSettings() {
 		return settings;
+	}
+
+	/**
+	 * @return Stage
+	 */
+	public Stage getStage() {
+		return stage;
+	}
+
+	/**
+	 * @param stage
+	 */
+	public void setStage(Stage stage) {
+		this.stage = stage;
 	}
 
 	@Override

@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import riskmanagement.common.RuleSettings;
+import riskmanagement.common.Stage;
 
 /**
  *
@@ -75,18 +76,28 @@ public class DefaultRuleEngine implements RuleEngine {
 	}
 
 	@Override
-	public <C> Result process(C context) {
+	public <C> Result process(C context, Stage stage) {
 		List<RuleResult> ruleResults = new ArrayList<>();
+		final Counter preProcessingActionCounter = new Counter();
+		final Counter postProcessingActionCounter = new Counter();
+		final Counter ruleCounter = new Counter();
+		final Counter notApplicableRuleCounter = new Counter();
 
 		LOGGER.info("Execute pre-actions");
 
-		actions.forEach(action -> {
-			LOGGER.info("Executing action {}", action.getName());
-			action.executePreProcessing(this.getRules(), context);
-		});
+		// Apply the pre-processing actions
+		actions.stream()
+			.filter(action -> action.isPreProcessingApplicable(context, stage))
+			.forEach(action -> {
+				LOGGER.info("Executing action {}", action.getName());
+				action.executePreProcessing(this.getRules(), context, stage);
+				preProcessingActionCounter.increment();
+			});
 
+		LOGGER.debug("Number of pre-processing action applied = {}", preProcessingActionCounter.getValue());
 		LOGGER.info("Evaluate rules");
 
+		// Apply the rules on the context to evaluate the risk
 		for(RuleWrapper ruleWrapper : rules) {
 			Rule rule = ruleWrapper.getRule();
 			RuleSettings ruleSettings = ruleWrapper.getRuleSettings();
@@ -95,27 +106,42 @@ public class DefaultRuleEngine implements RuleEngine {
 
 			RuleResult ruleResult;
 
-			if (rule.isApplicable(context, ruleSettings)) {
-				ruleResult = rule.evaluate(context, ruleSettings);
+			if (rule.isApplicable(context, stage, ruleSettings)) {
+				ruleResult = rule.evaluate(context, stage, ruleSettings);
+				ruleCounter.increment();
 			} else {
-				LOGGER.info("Not applicable");
+				LOGGER.info("Rule {} is not applicable", rule.getName());
 				ruleResult = new RuleResult(rule.getName());
+				notApplicableRuleCounter.increment();
 			}
 
 			ruleResults.add(ruleResult);
 		}
 
+		LOGGER.debug("Number of rules applied = {} ; number of not applicable rules = {}", ruleCounter.getValue(), notApplicableRuleCounter.getValue());
+
 		double score = decisionHelper.calculateFinalScore(ruleResults);
 		Color color = decisionHelper.calculateColor(score);
 
-		Result result = new Result(score, color, ruleResults);
+		// Only count the number of actions applied in post-processing
+		actions.stream()
+			.filter(action -> action.isPostProcessingApplicable(context, stage))
+			.forEach(a -> { postProcessingActionCounter.increment(); });
+
+		// The final result to return
+		Result result = new Result(score, color, ruleResults, preProcessingActionCounter.getValue(), postProcessingActionCounter.getValue());
 
 		LOGGER.info("Execute post-actions");
 
-		actions.forEach(action -> {
-			LOGGER.info("Executing action {}", action.getName());
-			action.executePostProcessing(this.getRules(), context, result);
-		});
+		// Apply the post-processing actions
+		actions.stream()
+			.filter(action -> action.isPostProcessingApplicable(context, stage))
+			.forEach(action -> {
+				LOGGER.info("Executing action {}", action.getName());
+				action.executePostProcessing(this.getRules(), context, stage, result);
+			});
+
+		LOGGER.debug("Number of post-processing action applied = {}", postProcessingActionCounter.getValue());
 
 		return result;
 	}

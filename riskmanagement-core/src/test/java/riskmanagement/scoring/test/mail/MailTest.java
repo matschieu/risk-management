@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
 import riskmanagement.common.RuleSettings;
+import riskmanagement.common.Stage;
 import riskmanagement.scoring.Action;
 import riskmanagement.scoring.Color;
 import riskmanagement.scoring.DefaultDecisionHelper;
@@ -18,6 +19,7 @@ import riskmanagement.scoring.Rule;
 import riskmanagement.scoring.RuleEngine;
 import riskmanagement.scoring.RuleResult;
 import riskmanagement.scoring.test.mail.context.Mail;
+import riskmanagement.scoring.test.mail.ext.MailStage;
 import riskmanagement.scoring.test.mail.rules.ObjectCheck;
 import riskmanagement.scoring.test.mail.rules.SenderInfo;
 
@@ -37,13 +39,13 @@ public class MailTest {
 		ruleEngine = new DefaultRuleEngine(new DefaultDecisionHelper(-2, -1));
 		ruleEngine.registerAction(new Action("Action1") {
 			@Override
-			public <C> void executePreProcessing(List<Rule> rules, C context) {
+			public <C> void executePreProcessing(List<Rule> rules, C context, Stage stage) {
 				System.out.println("Pre-processing 1");
 
 			}
 
 			@Override
-			public <C> void executePostProcessing(List<Rule> rules, C context, Result result) {
+			public <C> void executePostProcessing(List<Rule> rules, C context, Stage stage, Result result) {
 				System.out.println("Post-processing 2");
 
 				System.out.println("Score = " + result.getScore());
@@ -51,6 +53,16 @@ public class MailTest {
 				for(RuleResult ruleResult : result.getRuleResults()) {
 					System.out.println("* " + ruleResult.getRuleName() + " = " + ruleResult.getScore());
 				}
+			}
+
+			@Override
+			public <C> boolean isPreProcessingApplicable(C context, Stage stage) {
+				return stage == MailStage.BEFORE_RECEPTION;
+			}
+
+			@Override
+			public <C> boolean isPostProcessingApplicable(C context, Stage stage) {
+				return stage == MailStage.BEFORE_RECEPTION;
 			}
 		});
 
@@ -62,20 +74,20 @@ public class MailTest {
 
 	@Test
 	public void testBadConfig() throws Exception {
-		Result result = ruleEngine.process(mail);
+		try {
+			new DefaultRuleEngine(null);
+			Assert.fail();
+		} catch(Exception e) { }
 
-		Assert.assertNotNull(result);
-		Assert.assertNotNull(result.getScore());
-		Assert.assertNotNull(result.getColor());
-		Assert.assertEquals(Color.GREEN, result.getColor());
-		Assert.assertEquals(0, result.getScore(), 0);
-		Assert.assertNotNull(result.getRuleResults());
-		Assert.assertEquals(2, result.getRuleResults().size());
+		try {
+			new DefaultRuleEngine(new DefaultDecisionHelper(3, 1));
+			Assert.fail();
+		} catch(Exception e) { }
 	}
 
 	@Test
 	public void testNoRule() throws Exception {
-		Result result = new DefaultRuleEngine(new DefaultDecisionHelper(-1, -1)).process(mail);
+		Result result = new DefaultRuleEngine(new DefaultDecisionHelper(-1, -1)).process(mail, MailStage.BEFORE_RECEPTION);
 
 		Assert.assertNotNull(result);
 		Assert.assertNotNull(result.getScore());
@@ -91,7 +103,7 @@ public class MailTest {
 		mail.setFrom("toto@toto.com");
 		mail.setObject("Mail object");
 
-		Result result = ruleEngine.process(mail);
+		Result result = ruleEngine.process(mail, MailStage.BEFORE_RECEPTION);
 
 		Assert.assertNotNull(result);
 		Assert.assertNotNull(result.getScore());
@@ -107,7 +119,7 @@ public class MailTest {
 		mail.setFrom("toto@a.com");
 		mail.setObject("SEX");
 
-		Result result = ruleEngine.process(mail);
+		Result result = ruleEngine.process(mail, MailStage.BEFORE_RECEPTION);
 
 		Assert.assertNotNull(result);
 		Assert.assertNotNull(result.getScore());
@@ -120,7 +132,7 @@ public class MailTest {
 
 	@Test
 	public void testRuleNotApplicable() {
-		Result result = ruleEngine.process(new Mail());
+		Result result = ruleEngine.process(new Mail(), MailStage.BEFORE_RECEPTION);
 
 		Assert.assertNotNull(result);
 		Assert.assertEquals(0, result.getScore(), 0);
@@ -136,7 +148,7 @@ public class MailTest {
 		ruleEngine.registerRule(new ObjectCheck(), new RuleSettings(10.0));
 		ruleEngine.registerRule(new SenderInfo(), new RuleSettings(10.0));
 
-		Result result = ruleEngine.process(new Mail());
+		Result result = ruleEngine.process(new Mail(), MailStage.BEFORE_RECEPTION);
 
 		Assert.assertNotNull(result);
 		Assert.assertEquals(0, result.getScore(), 0);
@@ -152,7 +164,7 @@ public class MailTest {
 		ruleEngine.registerRule(new ObjectCheck(), new RuleSettings(10.0));
 		ruleEngine.registerRule(new SenderInfo(), new RuleSettings(10.0));
 
-		Result result = ruleEngine.process(new Mail());
+		Result result = ruleEngine.process(new Mail(), MailStage.BEFORE_RECEPTION);
 
 		Assert.assertNotNull(result);
 		Assert.assertEquals(0, result.getScore(), 0);
@@ -168,7 +180,7 @@ public class MailTest {
 		ruleEngine.registerRule(new ObjectCheck(), new RuleSettings(10.0));
 		ruleEngine.registerRule(new SenderInfo(), new RuleSettings(10.0));
 
-		Result result = ruleEngine.process(new Mail());
+		Result result = ruleEngine.process(new Mail(), MailStage.BEFORE_RECEPTION);
 
 		System.out.println(result);
 

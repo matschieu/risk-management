@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import riskmanagement.admin.Profile;
 import riskmanagement.admin.ProfileManager;
+import riskmanagement.common.Stage;
 
 /**
  * @author Matschieu
@@ -24,14 +25,14 @@ public class DefaultRiskManager implements RiskManager {
 	private RuleFactory ruleFactory = RuleFactory.getInstance();
 
 	@Override
-	public <C> Result process(String accountId, C context) {
+	public <C> Result process(String accountId, C context, Stage stage) {
 		final RuleEngine ruleEngine;
 
 		// TODO: find the key
 		// Loading a profile containing the rule and their settings
 		LOGGER.info("Getting default profile; accountId = {}", accountId);
 
-		Profile profile = profileManager.findActiveProfile(accountId);
+		Profile profile = profileManager.findActiveProfile(accountId, stage);
 
 		if (profile != null) {
 			LOGGER.info("Profile found; accountId = {}, profileName = {}", profile.getAccountId(), profile.getName());
@@ -45,7 +46,7 @@ public class DefaultRiskManager implements RiskManager {
 			ruleEngine = new DefaultRuleEngine(new DefaultDecisionHelper(0, 0));
 		}
 
-		return ruleEngine.process(context);
+		return ruleEngine.process(context, stage);
 	}
 
 }

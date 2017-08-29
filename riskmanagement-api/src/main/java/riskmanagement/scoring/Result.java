@@ -7,6 +7,8 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
  *
+ * The result of a risk evaluation.
+ *
  * @author Matschieu
  *
  */
@@ -26,16 +28,25 @@ public class Result {
 
 	private int notApplicableCounter;
 
+	private int preProcessingActions;
+
+	private int postProcessingActions;
+
 	/**
 	 *
-	 * @param score
-	 * @param color
-	 * @param ruleResults
+	 * @param score: the final score of the risk evaluation
+	 * @param color: the color based on the final score
+	 * @param ruleResults: the list of applied rules (including the not applicable)
+	 * @param preProcessingActions: the number of actions applied before the risk evaluation
+	 * @param postProcessingActions: the number of actions applied after the risk evaluation
 	 */
-	public Result(double score, Color color, List<RuleResult> ruleResults) {
+	public Result(double score, Color color, List<RuleResult> ruleResults, int preProcessingActions, int postProcessingActions) {
 		this.score = score;
 		this.color = color;
 		this.ruleResults = ruleResults;
+
+		this.preProcessingActions = preProcessingActions;
+		this.postProcessingActions = postProcessingActions;
 
 		this.maxScore = 0;
 		this.minScore = 0;
@@ -62,7 +73,7 @@ public class Result {
 
 	/**
 	 *
-	 * @return double
+	 * @return double: the final score of the risk evaluation
 	 */
 	public double getScore() {
 		return this.score;
@@ -70,7 +81,7 @@ public class Result {
 
 	/**
 	 *
-	 * @return Color
+	 * @return Color: the color based on the final score
 	 */
 	public Color getColor() {
 		return color;
@@ -84,31 +95,45 @@ public class Result {
 	}
 
 	/**
-	 * @return double
+	 * @return double: the highest score for a single rule
 	 */
 	public double getMaxScore() {
 		return maxScore;
 	}
 
 	/**
-	 * @return double
+	 * @return double: the lowest score for a single rule
 	 */
 	public double getMinScore() {
 		return minScore;
 	}
 
 	/**
-	 * @return int
+	 * @return int: the number of hits returned by the rules
 	 */
 	public int getHitCounter() {
 		return hitCounter;
 	}
 
 	/**
-	 * @return int
+	 * @return int: the number of rule that are not applicable to the context
 	 */
 	public int getNotApplicableCounter() {
 		return notApplicableCounter;
+	}
+
+	/**
+	 * @return int: the number of actions applied before the risk evaluation
+	 */
+	public int getPreProcessingActions() {
+		return preProcessingActions;
+	}
+
+	/**
+	 * @return int: the number of actions applied after the risk evaluation
+	 */
+	public int getPostProcessingActions() {
+		return postProcessingActions;
 	}
 
 	@Override

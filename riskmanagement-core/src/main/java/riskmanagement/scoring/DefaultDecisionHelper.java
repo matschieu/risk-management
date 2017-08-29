@@ -20,8 +20,8 @@ public class DefaultDecisionHelper implements DecisionHelper {
 
 	/**
 	 *
-	 * @param minThreshold
-	 * @param maxThreshold
+	 * @param minThreshold: minThreshold should be lower than or equals to maxThreshold
+	 * @param maxThreshold: maxThreshold should be greater than minThreshold
 	 * @throws IllegalArgumentException
 	 */
 	public DefaultDecisionHelper(double minThreshold, double maxThreshold) throws IllegalArgumentException {

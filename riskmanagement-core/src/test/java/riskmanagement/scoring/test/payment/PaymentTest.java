@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
 import riskmanagement.common.RuleSettings;
+import riskmanagement.common.Stage;
 import riskmanagement.scoring.Action;
 import riskmanagement.scoring.Color;
 import riskmanagement.scoring.DefaultDecisionHelper;
@@ -19,6 +20,7 @@ import riskmanagement.scoring.RuleEngine;
 import riskmanagement.scoring.RuleResult;
 import riskmanagement.scoring.test.payment.context.Card;
 import riskmanagement.scoring.test.payment.context.Transaction;
+import riskmanagement.scoring.test.payment.ext.PaymentStage;
 import riskmanagement.scoring.test.payment.rules.CommercialCard;
 import riskmanagement.scoring.test.payment.rules.VirtualCard;
 
@@ -38,26 +40,36 @@ public class PaymentTest {
 		ruleEngine = new DefaultRuleEngine(new DefaultDecisionHelper(-2, -1));
 		ruleEngine.registerAction(new Action("Action1") {
 			@Override
-			public <C> void executePreProcessing(List<Rule> rules, C context) {
+			public <C> void executePreProcessing(List<Rule> rules, C context, Stage stage) {
 				System.out.println("Pre-processing 1");
 
 			}
 
 			@Override
-			public <C> void executePostProcessing(List<Rule> rules, C context, Result result) {
+			public <C> void executePostProcessing(List<Rule> rules, C context, Stage stage, Result result) {
 				System.out.println("Post-processing 1");
 
+			}
+
+			@Override
+			public <C> boolean isPreProcessingApplicable(C context, Stage stage) {
+				return stage == PaymentStage.BEFORE_AUTHORIZATION;
+			}
+
+			@Override
+			public <C> boolean isPostProcessingApplicable(C context, Stage stage) {
+				return stage == PaymentStage.BEFORE_AUTHORIZATION;
 			}
 		});
 		ruleEngine.registerAction(new Action("Action2") {
 			@Override
-			public <C> void executePreProcessing(List<Rule> rules, C context) {
+			public <C> void executePreProcessing(List<Rule> rules, C context, Stage stage) {
 				System.out.println("Pre-processing 2");
 
 			}
 
 			@Override
-			public <C> void executePostProcessing(List<Rule> rules, C context, Result result) {
+			public <C> void executePostProcessing(List<Rule> rules, C context, Stage stage, Result result) {
 				System.out.println("Post-processing 2");
 
 				System.out.println("Score = " + result.getScore());
@@ -65,6 +77,16 @@ public class PaymentTest {
 				for(RuleResult ruleResult : result.getRuleResults()) {
 					System.out.println("* " + ruleResult.getRuleName() + " = " + ruleResult.getScore());
 				}
+			}
+
+			@Override
+			public <C> boolean isPreProcessingApplicable(C context, Stage stage) {
+				return stage == PaymentStage.BEFORE_AUTHORIZATION;
+			}
+
+			@Override
+			public <C> boolean isPostProcessingApplicable(C context, Stage stage) {
+				return stage == PaymentStage.BEFORE_AUTHORIZATION;
 			}
 		});
 
@@ -89,7 +111,7 @@ public class PaymentTest {
 
 	@Test
 	public void testNoRule() throws Exception {
-		Result result = new DefaultRuleEngine(new DefaultDecisionHelper(-1, -1)).process(transaction);
+		Result result = new DefaultRuleEngine(new DefaultDecisionHelper(-1, -1)).process(transaction, PaymentStage.BEFORE_AUTHORIZATION);
 
 		Assert.assertNotNull(result);
 		Assert.assertNotNull(result.getScore());
@@ -105,7 +127,7 @@ public class PaymentTest {
 		transaction.getCard().setVirtual(false);
 		transaction.getCard().setCommercial(false);;
 
-		Result result = ruleEngine.process(transaction);
+		Result result = ruleEngine.process(transaction, PaymentStage.BEFORE_AUTHORIZATION);
 
 		Assert.assertNotNull(result);
 		Assert.assertNotNull(result.getScore());
@@ -121,7 +143,7 @@ public class PaymentTest {
 		transaction.getCard().setVirtual(true);
 		transaction.getCard().setCommercial(true);;
 
-		Result result = ruleEngine.process(transaction);
+		Result result = ruleEngine.process(transaction, PaymentStage.BEFORE_AUTHORIZATION);
 
 		Assert.assertNotNull(result);
 		Assert.assertNotNull(result.getScore());
@@ -134,7 +156,7 @@ public class PaymentTest {
 
 	@Test
 	public void testRuleNotApplicable() {
-		Result result = ruleEngine.process(new Transaction());
+		Result result = ruleEngine.process(new Transaction(), PaymentStage.BEFORE_AUTHORIZATION);
 
 		Assert.assertNotNull(result);
 		Assert.assertEquals(0, result.getScore(), 0);
@@ -146,11 +168,11 @@ public class PaymentTest {
 
 	@Test
 	public void testColorRed() throws Exception {
-		ruleEngine = new DefaultRuleEngine(new DefaultDecisionHelper(100, 100));
+		RuleEngine ruleEngine = new DefaultRuleEngine(new DefaultDecisionHelper(100, 100));
 		ruleEngine.registerRule(new VirtualCard(), new RuleSettings(4.0));
 		ruleEngine.registerRule(new CommercialCard(), new RuleSettings(3.0));
 
-		Result result = ruleEngine.process(new Transaction());
+		Result result = ruleEngine.process(new Transaction(), PaymentStage.BEFORE_AUTHORIZATION);
 
 		Assert.assertNotNull(result);
 		Assert.assertEquals(0, result.getScore(), 0);
@@ -162,11 +184,11 @@ public class PaymentTest {
 
 	@Test
 	public void testColorOrange() throws Exception {
-		ruleEngine = new DefaultRuleEngine(new DefaultDecisionHelper(0, 100));
+		RuleEngine ruleEngine = new DefaultRuleEngine(new DefaultDecisionHelper(0, 100));
 		ruleEngine.registerRule(new VirtualCard(), new RuleSettings(4.0));
 		ruleEngine.registerRule(new CommercialCard(), new RuleSettings(3.0));
 
-		Result result = ruleEngine.process(new Transaction());
+		Result result = ruleEngine.process(new Transaction(), PaymentStage.BEFORE_AUTHORIZATION);
 
 		Assert.assertNotNull(result);
 		Assert.assertEquals(0, result.getScore(), 0);
@@ -178,11 +200,11 @@ public class PaymentTest {
 
 	@Test
 	public void testColorGreen() throws Exception {
-		ruleEngine = new DefaultRuleEngine(new DefaultDecisionHelper(-2, -1));
+		RuleEngine ruleEngine = new DefaultRuleEngine(new DefaultDecisionHelper(-2, -1));
 		ruleEngine.registerRule(new VirtualCard(), new RuleSettings(4.0));
 		ruleEngine.registerRule(new CommercialCard(), new RuleSettings(3.0));
 
-		Result result = ruleEngine.process(new Transaction());
+		Result result = ruleEngine.process(new Transaction(), PaymentStage.BEFORE_AUTHORIZATION);
 
 		System.out.println(result);
 
@@ -194,4 +216,20 @@ public class PaymentTest {
 		Assert.assertEquals(2, result.getRuleResults().size());
 	}
 
+	@Test
+	public void testStage() {
+		Result result;
+
+		result = ruleEngine.process(transaction, PaymentStage.BEFORE_AUTHORIZATION);
+
+		Assert.assertNotNull(result);
+		Assert.assertEquals(2, result.getPreProcessingActions());
+		Assert.assertEquals(2, result.getPostProcessingActions());
+
+		result = ruleEngine.process(transaction, PaymentStage.AFTER_AUTHORIZATION);
+
+		Assert.assertNotNull(result);
+		Assert.assertEquals(0, result.getPreProcessingActions());
+		Assert.assertEquals(0, result.getPostProcessingActions());
+	}
 }
